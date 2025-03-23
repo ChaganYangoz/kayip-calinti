@@ -1,20 +1,28 @@
 import cv2
 import base64
+import time
 from kafka import KafkaProducer
 
 # Kafka producer'ı başlat
 producer = KafkaProducer(
-    bootstrap_servers=['localhost:9092'],
-    value_serializer=lambda x: x.encode('utf-8')  # Base64 encoding string olarak gönderilecek
+    bootstrap_servers=['localhost:29092'],  # Docker Compose'daki PLAINTEXT_HOST ayarıyla eşleşecek şekilde değiştirildi
+    value_serializer=lambda x: x.encode('utf-8'),  # Base64 encoding string olarak gönderilecek
+    batch_size=16384,  # Batch boyutunu artırıyorum
+    buffer_memory=33554432,  # Buffer belleğini artırıyorum (32MB)
+    compression_type='gzip'  # Sıkıştırma ekliyorum
 )
 
 # Video dosyasını aç (Burada istediğin video dosyasını belirt)
-video_path = 'video2.mp4'  # Buraya video dosyasının yolunu yaz
+video_path = 'video.mp4'  # Buraya video dosyasının yolunu yaz
 cap = cv2.VideoCapture(video_path)
 
 if not cap.isOpened():
     print("Video dosyası açılamadı!")
     exit()
+
+# Video FPS bilgisini al
+fps = cap.get(cv2.CAP_PROP_FPS)
+frame_delay = 1.0 / fps  # Kare başına gecikme süresi
 
 # Video verilerini al ve Kafka'ya gönder
 while True:
@@ -23,21 +31,24 @@ while True:
     if not ret:
         print("Video bitmiş veya okunamıyor!")
         break
+    
+    # Görüntüyü yeniden boyutlandır - performans için
+    height, width = frame.shape[:2]
+    new_width = 640  # Daha düşük çözünürlükte gönder
+    new_height = int(height * new_width / width)
+    frame = cv2.resize(frame, (new_width, new_height))
 
     # Görüntüyü base64 formatında encode et
-    _, buffer = cv2.imencode('.jpg', frame)
+    _, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])  # Kaliteyi 80% yap
     frame_base64 = base64.b64encode(buffer).decode('utf-8')  # Base64 string olarak dönüştür
 
     # Kafka'ya gönder
     producer.send('my-topic', value=frame_base64)
+    
+    # Videoyu doğal hızında iletmek için bekle
+    time.sleep(frame_delay)
 
-    # Video'yu ekranda göster (isteğe bağlı)
-    cv2.imshow('Video Oynatılıyor', frame)
-
-    # 'q' tuşuna basarak çıkabilirsin
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# Kaynakları serbest bırak
+# Producer'ı kapat ve kaynakları serbest bırak
+producer.flush()
+producer.close()
 cap.release()
-cv2.destroyAllWindows()
