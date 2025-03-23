@@ -1,0 +1,203 @@
+/Users/sencanmustafa/Desktop/software/kayip-calinti/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Using cache found in /Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master
+Görselleştirme modu: Açık
+Model yükleniyor...
+YOLOv5 🚀 2025-3-23 Python-3.9.6 torch-2.6.0 CPU
+
+Fusing layers... 
+YOLOv5x summary: 444 layers, 86705005 parameters, 0 gradients, 205.5 GFLOPs
+Adding AutoShape... 
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+/Users/sencanmustafa/.cache/torch/hub/ultralytics_yolov5_master/models/common.py:894: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast(autocast):
+YOLOv5x modeli yüklendi!
+Kafka bağlantısı kuruluyor...
+Kafka bağlantısı başarılı!
+OpenCV penceresi başarıyla oluşturuldu!
+Video işleme başlatılıyor...
+Durum güncelleme başarılı: 0 kare işlendi
+Aktif filtreler: {'cell phone': True, 'phone': False, 'mobile phone': False, 'smartphone': False, 'backpack': True, 'handbag': True, 'wallet': True, 'purse': True, 'suitcase': False, 'laptop': True, 'book': False, 'umbrella': False, 'bottle': False, 'cup': False, 'remote': False, 'keyboard': False, 'mouse': False, 'person': False, 'bicycle': False, 'car': False, 'motorcycle': False, 'bus': False, 'truck': False, 'chair': False, 'bench': False, 'dining table': False, 'desk': False, 'couch': False, 'bed': False, 'table': False, 'dog': False, 'cat': False, 'tv': False, 'tvmonitor': False, 'monitor': False, 'all': False}
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Frame işleme hatası: local variable 'color_name' referenced before assignment
+Video bittiği bildirimi alındı, işleme sonlandırılıyor...
+Program sonlandırılıyor...
+Program sonlandırıldı.
