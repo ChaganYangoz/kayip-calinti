@@ -13,7 +13,7 @@ producer = KafkaProducer(
 )
 
 # Video dosyasını aç (Burada istediğin video dosyasını belirt)
-video_path = 'video4.mp4'  # Buraya video dosyasının yolunu yaz
+video_path = 'video3.mp4'  # Buraya video dosyasının yolunu yaz
 cap = cv2.VideoCapture(video_path)
 
 if not cap.isOpened():

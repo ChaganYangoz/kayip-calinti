@@ -153,13 +153,10 @@ def get_color_name(rgb):
         hsv_sample = cv2.cvtColor(bgr_sample, cv2.COLOR_BGR2HSV)[0][0]
         
         # Sadece H ve S'yi karşılaştır, V'yi dikkate alma
-        h1, s1, _ = hsv
-        h2, s2, _ = hsv_sample
-        
-        # Hue için dairesel mesafe (0-179 arasında)
+        h1, s1, _ = map(int, hsv)
+        h2, s2, _ = map(int, hsv_sample)
+
         h_dist = min(abs(h1 - h2), 180 - abs(h1 - h2))
-        
-        # Ağırlıklı uzaklık hesapla (Hue daha önemli)
         distance = h_dist * 2 + abs(s1 - s2) * 0.8
         
         if distance < min_distance:
