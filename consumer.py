@@ -23,39 +23,7 @@ OBJECTS_OF_INTEREST = {
     'purse': 'Personal Item',
     'suitcase': 'Personal Item',
     'laptop': 'Personal Item',
-    'book': 'Personal Item',
     'umbrella': 'Personal Item',
-    'bottle': 'Personal Item',
-    'cup': 'Personal Item',
-    'remote': 'Personal Item',
-    'keyboard': 'Personal Item',
-    'mouse': 'Personal Item',
-    
-    # İnsanlar
-    'person': 'Person',
-    
-    # Araçlar
-    'bicycle': 'Vehicle',
-    'car': 'Vehicle',
-    'motorcycle': 'Vehicle',
-    'bus': 'Vehicle',
-    'truck': 'Vehicle',
-    
-    # Mobilyalar
-    'chair': 'Furniture',
-    'bench': 'Furniture',
-    'dining table': 'Furniture',
-    'desk': 'Furniture',
-    'couch': 'Furniture',
-    'bed': 'Furniture',
-    'table': 'Furniture',
-    
-    # Diğer
-    'dog': 'Animal',
-    'cat': 'Animal',
-    'tv': 'Electronics',
-    'tvmonitor': 'Electronics',
-    'monitor': 'Electronics'
 }
 
 # Aktif filtre ayarları - başlangıçta tüm kişisel eşyalar aktif
@@ -66,8 +34,6 @@ active_filters = {
     'backpack': True,  # Sırt çantası
     'purse': True,  # El çantası
     'laptop': True,  # Dizüstü bilgisayar
-    'person': False,  # Kişi
-    'all': True  # Tüm nesneler - varsayılan olarak açık
 }
 
 # Klavye kısayolları için nesne-tuş eşleştirmesi
@@ -78,12 +44,14 @@ key_map = {
     '4': 'backpack',    # 4 tuşu: Sırt çantası filtresini aç/kapat
     '5': 'purse',       # 5 tuşu: El çantası filtresini aç/kapat
     '6': 'laptop',      # 6 tuşu: Dizüstü bilgisayar filtresini aç/kapat
-    'p': 'person',      # p tuşu: Kişi filtresini aç/kapat
     'a': 'all'          # a tuşu: Tüm nesneleri göster/gizle
 }
 
-# Renk isimlerine karar vermek için fonksiyon
+# Renk isimlerine karar vermek için geliştirilmiş fonksiyon
 def get_color_name(rgb):
+    import numpy as np
+    import cv2
+    
     # OpenCV BGR formatında renk tanımları (BGR tupleları - NOT RGB!)
     # Format: (Blue, Green, Red)
     colors = {
@@ -104,60 +72,92 @@ def get_color_name(rgb):
     }
     
     # Not: rgb parametresi gerçekte bir BGR değeri (OpenCV formatı)
-    # O yüzden "rgb" yerine "bgr" olarak düşünülmeli
     bgr_pixel = rgb  # Daha açık olmak için yeniden adlandırıyoruz
-    
-    # RGB değişimi yapmaya gerek yok, çünkü zaten BGR formatında
-    # En yakın rengi bul - HSV renk uzayında karşılaştır
-    min_distance = float('inf')
-    closest_color = "unknown"
     
     # Giriş BGR'yi HSV'ye dönüştür
     bgr = np.uint8([[bgr_pixel]])
     hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)[0][0]
     
-    # Hue değerini al (0-179)
+    # HSV değerlerini al
     h, s, v = hsv
     
-    # Koyu/açık renk kontrolü
-    is_dark = v < 100  # Değer düşükse koyu
-    low_sat = s < 50   # Doygunluk düşükse soluk
-    
-    # Siyah/beyaz/gri kontrolü
-    if low_sat or (v < 50 and s < 100):
-        if v < 50:
+    # Siyah/beyaz/gri kontrolü - öncelikli kontrol
+    # Daha kesin eşik değerleri
+    if s < 30:  # Düşük doygunluk - gri tonları
+        if v < 40:
             return "black"
-        elif v > 200 and s < 50:
+        elif v > 220:
             return "white"
         else:
             return "gray"
     
-    # Özel renk durumları - Hue temel alınarak
-    # Hue aralıkları (OpenCV'de 0-179 arasında)
-    if 100 <= h <= 130:  # Mavi aralığı
-        if is_dark or v < 150:
-            return "dark blue" if v < 100 else "blue"
+    # Parlaklık çok düşükse siyah olarak değerlendir
+    if v < 30:
+        return "black"
+    
+    # Renk aralıkları (OpenCV'de Hue 0-179 arasında)
+    # OpenCV'deki HSV değerleri: H: [0, 179], S: [0, 255], V: [0, 255]
+    
+    # Kırmızı (iki aralık - hem başlangıç hem bitiş)
+    if (0 <= h <= 10) or (170 <= h <= 179):
+        if s > 150 and v > 150:
+            return "red"
         else:
-            return "light blue"
-            
-    if 0 <= h <= 10 or 170 <= h <= 180:  # Kırmızı aralığı
-        return "red"
-        
-    if 20 <= h <= 30:  # Turuncu aralığı
+            # Koyu kırmızı veya kahverengi
+            return "brown" if v < 150 else "red"
+    
+    # Turuncu
+    if 11 <= h <= 25:
         return "orange"
     
-    # Standart karşılaştırma
+    # Sarı
+    if 26 <= h <= 35:
+        return "yellow"
+    
+    # Yeşil
+    if 36 <= h <= 85:
+        if v < 100:  # Koyu yeşil
+            return "dark green" if "dark green" in colors else "green"
+        else:
+            return "green"
+    
+    # Açık mavi
+    if 86 <= h <= 100:
+        return "light blue"
+    
+    # Mavi
+    if 101 <= h <= 125:
+        if v < 120:  # Koyu mavi
+            return "navy" if s > 100 else "dark blue"
+        else:
+            return "blue"
+    
+    # Mor
+    if 126 <= h <= 155:
+        return "purple"
+    
+    # Pembe
+    if 156 <= h <= 169:
+        return "pink"
+    
+    # Hiçbir özel durum yoksa, en yakın rengi bul
+    min_distance = float('inf')
+    closest_color = "unknown"
+    
     for color_name, color_bgr in colors.items():
         # Her rengi HSV'ye dönüştür
         bgr_sample = np.uint8([[color_bgr]])
         hsv_sample = cv2.cvtColor(bgr_sample, cv2.COLOR_BGR2HSV)[0][0]
         
-        # Sadece H ve S'yi karşılaştır, V'yi dikkate alma
-        h1, s1, _ = map(int, hsv)
-        h2, s2, _ = map(int, hsv_sample)
+        # H, S ve V değerlerini karşılaştır, farklı ağırlıklarla
+        h1, s1, v1 = map(int, hsv)
+        h2, s2, v2 = map(int, hsv_sample)
 
+        # Dairesel olan hue değerinde en kısa mesafeyi bul
         h_dist = min(abs(h1 - h2), 180 - abs(h1 - h2))
-        distance = h_dist * 2 + abs(s1 - s2) * 0.8
+        
+        # Hue'ye daha fazla ağırlık ver (renk tonu en önemli)
+        distance = h_dist * 2.5 + abs(s1 - s2) * 0.8 + abs(v1 - v2) * 0.5
         
         if distance < min_distance:
             min_distance = distance
@@ -167,39 +167,100 @@ def get_color_name(rgb):
 
 # Bir görüntüdeki baskın rengi bulma fonksiyonu
 def get_dominant_color(image, k=5):
-    # Maskeleme ile arka planı kaldır
-    # Sadece önemli renkli pikselleri kullan
+    import numpy as np
+    import cv2
+    from collections import Counter
+    
+    # Görüntüyü yumuşat - gürültü azaltma
+    blurred = cv2.GaussianBlur(image, (5, 5), 0)
+    
+    # Görüntüyü küçült - daha hızlı işlem için
+    height, width = image.shape[:2]
+    if height > 300 or width > 300:
+        scale = min(300 / width, 300 / height)
+        new_width = int(width * scale)
+        new_height = int(height * scale)
+        blurred = cv2.resize(blurred, (new_width, new_height))
+    
+    # HSV'ye dönüştür
+    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
     
     # Gri tonlama oluştur
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(blurred, cv2.COLOR_BGR2GRAY)
     
-    # Otsu thresholding ile maske oluştur (nesne daha belirgin)
-    _, mask = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    # Adaptif thresholding uygula - daha iyi nesne algılama
+    thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                  cv2.THRESH_BINARY_INV, 21, 5)
+    
+    # Morfolojik işlemler - gürültü azaltma
+    kernel = np.ones((3, 3), np.uint8)
+    mask = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=1)
+    mask = cv2.dilate(mask, kernel, iterations=2)
     
     # Maskeyi uygula
-    masked_image = cv2.bitwise_and(image, image, mask=mask)
+    masked_image = cv2.bitwise_and(blurred, blurred, mask=mask)
     
     # Siyah olmayan pikselleri al
     non_black_pixels = masked_image[np.where((masked_image != [0,0,0]).all(axis=2))]
     
-    # Eğer hiç piksel kalmadıysa, orijinal görüntüyü kullan
-    if len(non_black_pixels) == 0:
-        pixels = image.reshape(-1, 3).astype(np.float32)
+    # Eğer hiç piksel kalmadıysa veya çok az piksel varsa, orijinal görüntüyü kullan
+    if len(non_black_pixels) < 100:
+        # Orijinal görüntü üzerinde daha geniş bir analiz yap
+        # Kenarları yumuşat
+        edges = cv2.Canny(gray, 50, 150)
+        edges = cv2.dilate(edges, kernel, iterations=1)
+        mask = 255 - edges  # Kenar olmayan bölgeleri al
+        
+        masked_image = cv2.bitwise_and(blurred, blurred, mask=mask)
+        non_black_pixels = masked_image[np.where((masked_image != [0,0,0]).all(axis=2))]
+        
+        if len(non_black_pixels) < 100:
+            # Hala yeterli piksel yoksa orijinali kullan
+            pixels = blurred.reshape(-1, 3).astype(np.float32)
+        else:
+            pixels = non_black_pixels.astype(np.float32)
     else:
         pixels = non_black_pixels.astype(np.float32)
     
-    # K-means algoritması için durma kriterleri
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.2)
+    # K-means algoritması için durma kriterleri (daha fazla iterasyon)
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.1)
     
-    # K-means uygula
-    _, labels, centers = cv2.kmeans(pixels, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+    # K-means uygula - daha fazla küme ile başla ve sonra en önemlilerini seç
+    k = min(k, len(pixels))
+    if k == 0:
+        return (0, 0, 0)  # Boş görüntü durumu
     
-    # En çok kullanılan renk merkezi
+    _, labels, centers = cv2.kmeans(pixels, k, None, criteria, 15, cv2.KMEANS_PP_CENTERS)
+    
+    # Kümeleri önem sırasına göre sırala
     counts = Counter(labels.flatten())
-    dominant_color = centers[counts.most_common(1)[0][0]]
     
-    # BGR formatında döndür
-    return tuple(map(int, dominant_color))
+    # En çok bulunan 3 renk
+    dominant_colors = []
+    for i, (cluster_idx, count) in enumerate(counts.most_common(3)):
+        if i >= len(counts):
+            break
+        color = tuple(map(int, centers[cluster_idx]))
+        dominant_colors.append((color, count))
+    
+    # Arka plan olabilecek renkleri filtrele (genellikle beyaz veya siyah)
+    filtered_colors = []
+    for color, count in dominant_colors:
+        bgr = np.uint8([[color]])
+        hsv_color = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)[0][0]
+        
+        # Düşük doygunluk veya çok düşük/yüksek parlaklık -> arka plan olabilir
+        if hsv_color[1] > 30 or (30 < hsv_color[2] < 225):
+            filtered_colors.append((color, count))
+    
+    # Filtreleme sonrası renk kalmadıysa, en büyük kümeden devam et
+    if not filtered_colors and dominant_colors:
+        return dominant_colors[0][0]
+    elif filtered_colors:
+        return filtered_colors[0][0]
+    else:
+        # Hiç renk bulunamazsa varsayılan değer
+        return (128, 128, 128)  # Gri
 
 # Ekrandaki aktif filtreleri göster
 def show_active_filters(frame):
@@ -245,15 +306,15 @@ except:
         model = torch.hub.load('ultralytics/yolov5', 'yolov5m', force_reload=False, pretrained=True)
         print("YOLOv5m modeli yüklendi!")
 
-# Modelin algılama parametrelerini ayarla - daha hassas tespit için
-model.conf = 0.25  # Güven eşiğini düşür (0.45'ten 0.25'e)
-model.iou = 0.45   # IOU eşiği
+# Modelin algılama parametrelerini ayarla - optimal tespit için
+model.conf = 0.40  # Güven eşiği - kararlı tespit için orta seviye
+model.iou = 0.45   # IOU eşiği - bu değer genellikle uygun
 model.classes = None  # Tüm sınıfları tespit et
-model.multi_label = True  # Çoklu etiket tespiti
-model.max_det = 100  # Maksimum tespit sayısını artır
+model.multi_label = True  # Çoklu etiket tespiti - örtüşen nesneler için faydalı
+model.max_det = 50   # Makul sayıda tespit - performans/doğruluk dengesi
 
-# CPU'da çalışacak şekilde modeli ayarla
-model.cpu()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
 
 # Kafka consumer'ı başlat
 consumer = KafkaConsumer(
@@ -285,6 +346,11 @@ def show_status_info(frame, processed_frames):
 
 print("Video işleme başlatılıyor. Video bittiğinde otomatik olarak sonlanacak veya 'q' tuşuna basarak çıkabilirsiniz.")
 
+valid_classes = {'cell phone', 'wallet', 'handbag', 'backpack', 'purse', 'laptop'}
+
+# Aktif filtreleri tutan sözlük (veya set)
+active_filters = {cls: False for cls in valid_classes}
+
 # Başlangıçta kullanıcıdan filtre inputu al
 def get_filter_input():
     # Mevcut filtreleri göster
@@ -297,26 +363,30 @@ def get_filter_input():
         filter_options.append(key)
     
     print("\nSeçmek istediğiniz filtreleri boşlukla ayırarak girin (örn: '1 2 3'):")
-    print("Tüm nesneleri görmek için 'a' girin, sadece person için 'p' girin")
+    print("Tüm nesneleri görmek için 'a' girin")
     
     try:
         # Kullanıcı inputunu al
-        user_input = input("Filtreler: ").strip().split()
+        user_input = input("Filtreler: ").strip()
         
         # Tüm filtreleri kapat
         for filter_name in active_filters:
             active_filters[filter_name] = False
         
-        # Seçilen filtreleri aç
-        for choice in user_input:
-            if choice in key_map:
-                filter_name = key_map[choice]
+        if user_input.lower() == 'a':
+            print("Tüm geçerli nesneler gösterilecek.")
+            # Burada tüm YOLO nesnelerini aktifleştir
+            for filter_name in active_filters:
                 active_filters[filter_name] = True
-                print(f"'{filter_name}' filtresi aktifleştirildi.")
-        
-        if 'a' in user_input:
-            print("Tüm nesneler gösterilecek.")
-        
+        else:
+            # Seçilen filtreleri aç
+            choices = user_input.split()
+            for choice in choices:
+                if choice in key_map:
+                    filter_name = key_map[choice]
+                    active_filters[filter_name] = True
+                    print(f"'{filter_name}' filtresi aktifleştirildi.")
+            
         print("\nSeçtiğiniz filtreler ile video işleniyor...")
         
     except Exception as e:
@@ -421,10 +491,6 @@ def process_video_stream():
                         # Kategori renklerini belirle
                         category_colors = {
                             'Personal Item': (0, 0, 255),  # Kırmızı (BGR)
-                            'Person': (0, 255, 0),         # Yeşil
-                            'Vehicle': (255, 0, 0),        # Mavi
-                            'Furniture': (0, 255, 255),    # Sarı
-                            'Animal': (255, 0, 255),       # Mor
                             'Electronics': (255, 128, 0)   # Açık mavi
                         }
                         
@@ -453,9 +519,6 @@ def process_video_stream():
                 # Tespit sonuçlarını göster
                 if detected_items:
                     print(f"Detected items: {', '.join(detected_items)}")
-                
-                # Aktif filtreleri ekranda gösterme (kaldırıldı)
-                # output_frame = show_active_filters(output_frame)
                 
                 # Durum bilgisini ekranda gösterme (kaldırıldı)
                 processed_frames += 1
