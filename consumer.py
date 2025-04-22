@@ -291,20 +291,23 @@ def show_active_filters(frame):
 # PyTorch modelini yükleme öncesi import etmek için
 from torch import amp
 
-# YOLOv5 modelini yükle - daha büyük ve hassas bir model (yolov5x)
+from ultralytics import YOLO
+
+model = None
+
 try:
-    # Önce daha büyük modeli yüklemeyi dene (yolov5x)
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5x', force_reload=False, pretrained=True)
-    print("YOLOv5x modeli yüklendi!")
+    model = YOLO('yolov8x.pt')
+    print("YOLOv8x modeli yüklendi!")
 except:
     try:
-        # Eğer x modeli yüklenemezse l modeli dene
-        model = torch.hub.load('ultralytics/yolov5', 'yolov5l', force_reload=False, pretrained=True)
-        print("YOLOv5l modeli yüklendi!")
+        model = YOLO('yolov8l.pt')
+        print("YOLOv8l modeli yüklendi!")
     except:
-        # Son çare olarak m modeli kullan
-        model = torch.hub.load('ultralytics/yolov5', 'yolov5m', force_reload=False, pretrained=True)
-        print("YOLOv5m modeli yüklendi!")
+        try:
+            model = YOLO('yolov8m.pt')
+            print("YOLOv8m modeli yüklendi!")
+        except Exception as e:
+            print("Hiçbir model yüklenemedi:", e)
 
 # Modelin algılama parametrelerini ayarla - optimal tespit için
 model.conf = 0.40  # Güven eşiği - kararlı tespit için orta seviye
@@ -314,7 +317,9 @@ model.multi_label = True  # Çoklu etiket tespiti - örtüşen nesneler için fa
 model.max_det = 50   # Makul sayıda tespit - performans/doğruluk dengesi
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 model.to(device)
+
 
 # Kafka consumer'ı başlat
 consumer = KafkaConsumer(
@@ -440,141 +445,61 @@ def process_video_stream():
                 enhanced_frame = frame.copy()
                 enhanced_frame = cv2.convertScaleAbs(enhanced_frame, alpha=1.2, beta=10)  # Kontrast ve parlaklık artır
                 
-                # YOLOv5 ile nesne tespiti yap - geliştirilmiş parametrelerle
-                results = model(enhanced_frame, size=640)  # Büyük bir boyutla tespit yap
+                # Yolov8 model ile nesne tespiti
+                results = model(enhanced_frame)  # Yolov8 modelini kullanarak tespit yap
                 
-                # Sonuçları pandas DataFrame olarak al
-                df = results.pandas().xyxy[0]
-                
-                # Orijinal görüntünün bir kopyasını oluştur
-                output_frame = enhanced_frame.copy()
-                
-                # Tespit edilen nesneleri filtrele
+                # Tespit edilen nesneler
                 detected_items = []
+
+                for result in results:
+                    # Her tespit edilen nesne için
+                    for box in result.boxes:
+                        # Koordinatları ve etiket bilgilerini al
+                        xmin, ymin, xmax, ymax = box.xyxy[0].tolist()
+                        label = result.names[int(box.cls)]  # Etiket adı
+                        conf = box.conf[0].item()  # Güven skoru
+                        
+                        # Filtreleme mantığı
+                        if label.lower() in active_filters and active_filters[label.lower()]:
+                            detected_items.append(f"{label} ({conf:.2f})")
+                            
+                            # Nesnenin bulunduğu bölgeyi kes
+                            roi = frame[int(ymin):int(ymax), int(xmin):int(xmax)]
+                            
+                            # Eğer ROI boş değilse
+                            if roi.size > 0:
+                                # Nesnenin baskın rengini bul
+                                dominant_color = get_dominant_color(roi)
+                                color_name = get_color_name(dominant_color)
+                                
+                                # Tespit edilen nesne etrafına kutu çiz
+                                cv2.rectangle(enhanced_frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 0), 3)
+                                
+                                # Etiketi yazdır - güven skorunu da ekle
+                                text = f"{label} ({color_name}) {conf:.2f}"
+                                cv2.putText(enhanced_frame, text, (int(xmin), int(ymin)-10),
+                                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
                 
-                # Her tespit edilen nesne için
-                for i, row in df.iterrows():
-                    # Koordinatları ve etiketi al
-                    xmin, ymin, xmax, ymax = int(row['xmin']), int(row['ymin']), int(row['xmax']), int(row['ymax'])
-                    label = row['name']
-                    conf = row['confidence']
-                    
-                    # Sadece ilgilenilen nesneleri işaretle
-                    category = OBJECTS_OF_INTEREST.get(label.lower(), None)
-                    
-                    # Spesifik filtreleme mantığı
-                    should_display = False
-                    
-                    # 1. Spesifik filtre kontrolü - örneğin 'person'
-                    if label.lower() in active_filters:
-                        # Bu nesne için spesifik filtre varsa, o filtre değerini kullan
-                        should_display = active_filters[label.lower()]
-                    # 2. Spesifik filtre yoksa ve 'all' aktifse göster
-                    elif category is not None and active_filters.get('all', False):
-                        should_display = True
-                    # 3. Ne spesifik filtre ne de kategori varsa, 'all' aktifse göster
-                    elif category is None and active_filters.get('all', False):
-                        should_display = True
-                    
-                    # Gösterilmeyecekse atla
-                    if not should_display:
-                        continue
-                    
-                    # Nesneyi kaydet
-                    detected_items.append(f"{label} ({conf:.2f})")
-                    
-                    # Nesnenin bulunduğu bölgeyi kes
-                    roi = frame[ymin:ymax, xmin:xmax]
-                    
-                    # Eğer ROI boş değilse
-                    if roi.size > 0:
-                        # Nesnenin baskın rengini bul
-                        dominant_color = get_dominant_color(roi)
-                        color_name = get_color_name(dominant_color)
-                        
-                        # Kategori renklerini belirle
-                        category_colors = {
-                            'Personal Item': (0, 0, 255),  # Kırmızı (BGR)
-                            'Electronics': (255, 128, 0)   # Açık mavi
-                        }
-                        
-                        # Kategori varsa o renk, yoksa dominant rengi kullan
-                        box_color = category_colors.get(category, dominant_color)
-                        
-                        # Tespit edilen nesne etrafına kutu çiz - kalınlığı artır
-                        cv2.rectangle(output_frame, (xmin, ymin), (xmax, ymax), box_color, 3)
-                        
-                        # Etiket metni oluştur - güven skorunu da ekle
-                        if category:
-                            text = f"{label} ({color_name}) {conf:.2f}"
-                        else:
-                            text = f"{label} ({color_name}) {conf:.2f}"
-                        
-                        # Metin için kutu çiz
-                        text_size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)[0]
-                        text_bg_coord1 = (xmin, ymin - 25)
-                        text_bg_coord2 = (xmin + text_size[0], ymin)
-                        cv2.rectangle(output_frame, text_bg_coord1, text_bg_coord2, box_color, -1)
-                        
-                        # Etiketi yazdır - yazı boyutunu artır
-                        cv2.putText(output_frame, text, (xmin, ymin - 5),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
-                
-                # Tespit sonuçlarını göster
+                # Tespit edilen nesneleri yazdır
                 if detected_items:
                     print(f"Detected items: {', '.join(detected_items)}")
                 
-                # Durum bilgisini ekranda gösterme (kaldırıldı)
                 processed_frames += 1
-                # output_frame = show_status_info(output_frame, processed_frames)
                 
                 # Son işlenen zaman güncelle
                 last_processed_time = time.time()
                 
                 # İşlenmiş görüntüyü göster
-                cv2.imshow('Video with Detected Objects and Colors', output_frame)
+                cv2.imshow('Video with Detected Objects and Colors', enhanced_frame)
             
             # Tuş yakalama
             key = cv2.waitKey(1) & 0xFF
-            
-            # 'q' tuşuna basarak çıkabilirsin
             if key == ord('q'):
-                return False
+                return False  # Çık
                 
-            # Tuşa basıldıysa filtreleri güncelle
-            key_pressed = chr(key) if key < 128 else ''
-            
-            if key_pressed in key_map:
-                filter_name = key_map[key_pressed]
-                active_filters[filter_name] = not active_filters[filter_name]
-                print(f"Filter '{filter_name}' is now {'ON' if active_filters[filter_name] else 'OFF'}")
-        
         except Exception as e:
             print(f"Error processing frame: {e}")
             continue
-            
-    # Video bitti, yeni bir ekran göster
-    end_frame = np.zeros((720, 1280, 3), dtype=np.uint8)
-    cv2.putText(end_frame, "Video Processing Complete", (400, 320), 
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
-    cv2.putText(end_frame, f"Processed {processed_frames} frames", (450, 370), 
-                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
-    cv2.putText(end_frame, "Press 'r' to replay or 'q' to quit", (430, 420), 
-                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-    cv2.imshow('Video with Detected Objects and Colors', end_frame)
-    
-    # Kullanıcı girişini bekle
-    while True:
-        key = cv2.waitKey(0) & 0xFF
-        if key == ord('q'):
-            return False  # Çık
-        elif key == ord('r'):
-            # Sayaçları sıfırla ve yeniden başlat
-            processed_frames = 0
-            last_processed_time = time.time()
-            return True  # Yeniden oynat
-            
-    return False
 
 # Ana döngü - video yeniden oynatma seçeneği
 replay = True
