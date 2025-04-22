@@ -318,11 +318,15 @@ model.to(device)
 
 # Kafka consumer'ı başlat
 consumer = KafkaConsumer(
-    'my-topic',  # Kafka topic adı
-    bootstrap_servers=['localhost:29092'],
-    value_deserializer=lambda x: x.decode('utf-8'),  # Base64 string olarak deserialize et
-    auto_offset_reset='latest',  # En son mesajdan itibaren oku
-    max_partition_fetch_bytes=10485760  # Buffer'ı artır (10MB)
+    'topic_0',
+    bootstrap_servers='pkc-4nmjv.francecentral.azure.confluent.cloud:9092',
+    security_protocol='SASL_SSL',
+    sasl_mechanism='PLAIN',
+    sasl_plain_username='PEUKERKJNVCUFIPN',
+    sasl_plain_password='nGptcmIG90ml6MIoAP4kYQ870NnctVV1lBMTre4WTrd9695wIomom1Lmrx0cPjAY',
+    value_deserializer=lambda x: x.decode('utf-8'),
+    auto_offset_reset='latest',
+    max_partition_fetch_bytes=10485760
 )
 
 # Son işlenen zaman (frame)
